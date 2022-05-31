@@ -4,13 +4,12 @@ let detections = [];
 let canvas;
 let video;
 
-
 function setup(){
   canvas = createCanvas(640, 480, WEBGL);//3D mode!!!
-  canvas.id("canvas");
+//canvas.id("canvas");
 
   video = createCapture(VIDEO);
-  video.id("video");
+  //video.id("video");
   video.size(width, height);
 
   const options = {
@@ -29,8 +28,6 @@ function modelReady() {
   console.log("Model ready!");
   handpose.on('predict', results => {
     detections = results;
-
- 
   });
 }
 
@@ -40,36 +37,38 @@ function draw(){
   //In webgl mode, origin of the coordinate setted to centre.
   //So I re-positioned it to top-left.
   translate(-width/2, -height/2);
+ 
 
   if(detections.length > 0){
 
     stroke(1)
+    strokeWeight(2)
    
-    drawLines([0, 5, 9, 13, 17, 0]);//palm
-    drawLines([0, 1, 2, 3 ,4]);//thumb
-    drawLines([5, 6, 7, 8]);//index finger
-    drawLines([9, 10, 11, 12]);//middle finger
-     drawLines([13, 14, 15, 16]);//ring finger
-    drawLines([17, 18, 19, 20]);//pinky
+//   drawLines([0, 5, 9, 13, 17, 0]);//palm
+//   drawLines([0, 1, 2, 3 ,4]);//thumb
+// drawLines([5, 6, 7, 8]);//index finger
+//   drawLines([9, 10, 11, 12]);//middle finger
+//      drawLines([13, 14, 15, 16]);//ring finger
+//   drawLines([17, 18, 19, 20]);//pinky
 
     drawLandmarks([0, 1], 0);//palm base
-    drawLandmarks([1, 5], 60);//thumb
-    drawLandmarks([5, 9], 120);//index finger
-    drawLandmarks([9, 13], 180);//middle finger
-    drawLandmarks([13, 17], 240);//ring finger
-    drawLandmarks([17, 21], 300);//pinky
+   drawLandmarks([1, 5], 60);//thumb
+drawLandmarks([5, 9], 120);//index finger
+     drawLandmarks([9, 13], 180);//middle finger
+  drawLandmarks([13, 17], 240);//ring finger
+ drawLandmarks([17, 21], 300);//pinky
+ 
   }
 }
 
-function drawLandmarks(indexArray, hue){
- 
-   
+function drawLandmarks(indexArray){
+
     for(let i=0; i<detections.length; i++){
       for(let j=indexArray[0]; j<indexArray[1]; j++){
         let x = detections[i].landmarks[j][0];
         let y = detections[i].landmarks[j][1];
         let z = detections[i].landmarks[j][2];
-        
+    
         stroke(255, 0, 0);
         ellipse(x, y, 20)
         strokeWeight(3);
